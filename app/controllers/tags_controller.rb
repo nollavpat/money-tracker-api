@@ -1,21 +1,8 @@
 # frozen_string_literal: true
 
-# Tags controller
 class TagsController < ApplicationController
   before_action :authenticate_token
-  before_action :set_tag, only: %i[show destroy]
-
-  # GET /tags
-  def index
-    @tags = Tag.all
-
-    render json: @tags
-  end
-
-  # GET /tags/1
-  def show
-    render json: @tag
-  end
+  before_action :set_tag, only: %i[destroy show]
 
   # POST /tags
   def create
@@ -31,6 +18,18 @@ class TagsController < ApplicationController
   # DELETE /tags/1
   def destroy
     @tag.destroy
+  end
+
+  # GET /tags
+  def index
+    @tags = Tag.all
+
+    render json: @tags
+  end
+
+  # GET /tags/1
+  def show
+    render json: @tag
   end
 
   private

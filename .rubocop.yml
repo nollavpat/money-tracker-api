@@ -557,6 +557,9 @@ Style/ConcatArrayLiterals:
 Style/DocumentDynamicEvalDefinition:
   Enabled: true
 
+Style/Documentation:
+  Enabled: false
+
 Style/EmptyHeredoc:
   Enabled: true
 
