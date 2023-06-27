@@ -1,0 +1,733 @@
+AllCops:
+  Exclude:
+    - '.pryrc'
+    - 'bin/{rails,rake,spring,setup,bundle,update}'
+    - 'config.ru'
+    - 'config/**/*'
+    - 'db/**/*'
+    - 'lib/tasks/**/*'
+    - 'Rakefile'
+    - 'scripts/**/*'
+    - 'vendor/**/*'
+  NewCops: enable
+  SuggestExtensions: false
+
+#################### Bundler ###############################
+Bundler/DuplicatedGem:
+  Enabled: true
+  Include:
+    - '**/*.gemfile'
+    - '**/Gemfile'
+    - '**/gems.rb'
+
+Bundler/GemComment:
+  Enabled: true
+  Exclude:
+    - 'Gemfile'
+  Include:
+    - '**/*.gemfile'
+    - '**/Gemfile'
+    - '**/gems.rb'
+  IgnoredGems: []
+
+Bundler/InsecureProtocolSource:
+  Enabled: true
+  Include:
+    - '**/*.gemfile'
+    - '**/Gemfile'
+    - '**/gems.rb'
+
+Bundler/OrderedGems:
+  Enabled: true
+  Include:
+    - '**/*.gemfile'
+    - '**/Gemfile'
+    - '**/gems.rb'
+
+#################### Gemspec ###############################
+
+Gemspec/DeprecatedAttributeAssignment:
+  Enabled: true
+
+Gemspec/DevelopmentDependencies:
+  Enabled: true
+
+Gemspec/DuplicatedAssignment:
+  Enabled: true
+  Include:
+    - '**/*.gemspec'
+
+Gemspec/OrderedDependencies:
+  Enabled: true
+  TreatCommentsAsGroupSeparators: true
+  Include:
+    - '**/*.gemspec'
+
+Gemspec/RequireMFA:
+  Enabled: true
+
+Gemspec/RequiredRubyVersion:
+  Enabled: true
+  Include:
+    - '**/*.gemspec'
+
+Gemspec/RubyVersionGlobalsUsage:
+  Enabled: true
+  Include:
+    - '**/*.gemspec'
+
+#################### Layout ###############################
+
+Layout/ArgumentAlignment:
+  Enabled: true
+
+Layout/LineContinuationLeadingSpace:
+  Enabled: true
+
+Layout/LineContinuationSpacing:
+  Enabled: true
+
+Layout/LineEndStringConcatenationIndentation:
+  Enabled: true
+
+Layout/LineLength:
+  Enabled: true
+  AutoCorrect: false
+  Max: 120
+  # To make it possible to copy or click on URIs in the code, we allow lines
+  # containing a URI to be longer than Max.
+  AllowHeredoc: true
+  AllowURI: true
+  URISchemes:
+    - http
+    - https
+  # The IgnoreCopDirectives option causes the LineLength rule to ignore cop
+  # directives like '# rubocop: enable ...' when calculating a line's length.
+  IgnoreCopDirectives: true
+
+Layout/SpaceBeforeBrackets:
+  Enabled: true
+
+#################### Lint ###############################
+
+Lint/AmbiguousAssignment:
+  Enabled: true
+
+Lint/AmbiguousOperatorPrecedence:
+  Enabled: true
+
+Lint/AmbiguousRange:
+  Enabled: true
+
+Lint/ConstantOverwrittenInRescue:
+  Enabled: true
+
+Lint/DeprecatedConstants:
+  Enabled: true
+
+Lint/DuplicateBranch:
+  Enabled: true
+
+Lint/DuplicateMagicComment:
+  Enabled: true
+
+Lint/DuplicateRegexpCharacterClassElement:
+  Enabled: true
+
+Lint/EmptyBlock:
+  Enabled: true
+
+Lint/EmptyClass:
+  Enabled: true
+
+Lint/EmptyInPattern:
+  Enabled: true
+
+Lint/IncompatibleIoSelectWithFiberScheduler:
+  Enabled: true
+
+Lint/LambdaWithoutLiteralBlock:
+  Enabled: true
+
+Lint/NoReturnInBeginEndBlocks:
+  Enabled: true
+
+Lint/NonAtomicFileOperation:
+  Enabled: true
+
+Lint/NumberedParameterAssignment:
+  Enabled: true
+
+Lint/OrAssignmentToConstant:
+  Enabled: true
+
+Lint/RedundantDirGlobSort:
+  Enabled: true
+
+Lint/RefinementImportMethods:
+  Enabled: true
+
+Lint/RequireRangeParentheses:
+  Enabled: true
+
+Lint/RequireRelativeSelfPath:
+  Enabled: true
+
+Lint/SymbolConversion:
+  Enabled: true
+
+Lint/ToEnumArguments:
+  Enabled: true
+
+Lint/TripleQuotes:
+  Enabled: true
+
+Lint/UnexpectedBlockArity:
+  Enabled: true
+
+Lint/UnmodifiedReduceAccumulator:
+  Enabled: true
+
+Lint/UselessRescue:
+  Enabled: true
+
+Lint/UselessRuby2Keywords:
+  Enabled: true
+
+#################### Metrics ###############################
+
+Metrics/AbcSize:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
+  Max: 17
+
+Metrics/BlockLength:
+  CountComments: false # count full line comments?
+  Enabled: true
+  Exclude:
+    - '**/*.gemspec'
+    - 'spec/**/*'
+  Max: 25
+
+Metrics/ClassLength:
+  CountAsOne: ['array', 'hash', 'heredoc', 'method_call']
+  CountComments: false
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
+  Max: 120
+
+Metrics/CyclomaticComplexity:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
+  Max: 7
+
+Metrics/MethodLength:
+  CountAsOne: ['array', 'hash', 'heredoc', 'method_call']
+  CountComments: false
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
+  Max: 25
+
+Metrics/ModuleLength:
+  CountAsOne: ['array', 'hash', 'heredoc', 'method_call']
+  CountComments: false
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
+  Max: 100
+
+Metrics/ParameterLists:
+  CountKeywordArgs: true
+  Enabled: true
+  Max: 5
+
+Metrics/PerceivedComplexity:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
+  Max: 8
+
+#################### Naming ###############################
+
+Naming/BlockForwarding:
+  Enabled: true
+
+Naming/BinaryOperatorParameterName:
+  Enabled: true
+Naming/BlockParameterName:
+  Enabled: true
+  # Parameter names may be equal to or greater than this value
+  MinNameLength: 1
+  AllowNamesEndingInNumbers: true
+  # Allowed names that will not register an offense
+  AllowedNames: []
+  # Forbidden names that will register an offense
+  ForbiddenNames: []
+
+Naming/ClassAndModuleCamelCase:
+  Enabled: true
+
+Naming/ConstantName:
+  Enabled: true
+
+Naming/FileName:
+  Enabled: true
+  # Camel case file names listed in `AllCops:Include` and all file names listed
+  # in `AllCops:Exclude` are excluded by default. Add extra excludes here.
+  Exclude: []
+  # When `true`, requires that each source file should define a class or module
+  # with a name which matches the file name (converted to ... case).
+  # It further expects it to be nested inside modules which match the names
+  # of subdirectories in its path.
+  ExpectMatchingDefinition: false
+  # If non-`nil`, expect all source file names to match the following regex.
+  # Only the file name itself is matched, not the entire file path.
+  # Use anchors as necessary if you want to match the entire name rather than
+  # just a part of it.
+  Regex: ~
+  # With `IgnoreExecutableScripts` set to `true`, this cop does not
+  # report offending filenames for executable scripts (i.e. source
+  # files with a shebang in the first line).
+  IgnoreExecutableScripts: true
+  AllowedAcronyms:
+    - CLI
+    - DSL
+    - ACL
+    - API
+    - ASCII
+    - CPU
+    - CSS
+    - DNS
+    - EOF
+    - GUID
+    - HTML
+    - HTTP
+    - HTTPS
+    - ID
+    - IP
+    - JSON
+    - LHS
+    - QPS
+    - RAM
+    - RHS
+    - RPC
+    - SLA
+    - SMTP
+    - SQL
+    - SSH
+    - TCP
+    - TLS
+    - TTL
+    - UDP
+    - UI
+    - UID
+    - UUID
+    - URI
+    - URL
+    - UTF8
+    - VM
+    - XML
+    - XMPP
+    - XSRF
+    - XSS
+
+Naming/HeredocDelimiterCase:
+  Enabled: true
+  EnforcedStyle: uppercase
+  SupportedStyles:
+    - lowercase
+    - uppercase
+
+Naming/HeredocDelimiterNaming:
+  Enabled: true
+  ForbiddenDelimiters:
+    - !ruby/regexp '/(^|\s)(EO[A-Z]{1}|END)(\s|$)/'
+
+Naming/MemoizedInstanceVariableName:
+  Enabled: true
+  EnforcedStyleForLeadingUnderscores: disallowed
+  SupportedStylesForLeadingUnderscores:
+    - disallowed
+    - required
+    - optional
+
+Naming/MethodName:
+  Enabled: true
+  EnforcedStyle: snake_case
+  SupportedStyles:
+    - snake_case
+    - camelCase
+
+Naming/MethodParameterName:
+  Enabled: true
+  # Parameter names may be equal to or greater than this value
+  MinNameLength: 3
+  AllowNamesEndingInNumbers: true
+  # Allowed names that will not register an offense
+  AllowedNames:
+    - io
+    - id
+    - to
+    - by
+    - 'on'
+    - in
+    - at
+    - ip
+    - db
+    - os
+    - pp
+  # Forbidden names that will register an offense
+  ForbiddenNames: []
+
+Naming/PredicateName:
+  Enabled: true
+  # Predicate name prefixes.
+  NamePrefix:
+    - is_
+    - has_
+    - have_
+  # Predicate name prefixes that should be removed.
+  ForbiddenPrefixes:
+    - is_
+    - has_
+    - have_
+  # Predicate names which, despite having a forbidden prefix, or no `?`,
+  # should still be accepted
+  AllowedMethods:
+    - is_a?
+  # Method definition macros for dynamically generated methods.
+  MethodDefinitionMacros:
+    - define_method
+    - define_singleton_method
+  # Exclude Rspec specs because there is a strong convention to write spec
+  # helpers in the form of `have_something` or `be_something`.
+  Exclude:
+    - 'spec/**/*'
+
+Naming/RescuedExceptionsVariableName:
+  Enabled: true
+  PreferredName: e
+
+Naming/VariableName:
+  Enabled: true
+  EnforcedStyle: snake_case
+  SupportedStyles:
+    - snake_case
+    - camelCase
+
+Naming/VariableNumber:
+  Enabled: true
+  EnforcedStyle: normalcase
+  SupportedStyles:
+    - snake_case
+    - normalcase
+    - non_integer
+
+#################### Security ###############################
+
+Security/CompoundHash:
+  Enabled: true
+
+Security/IoMethods:
+  Enabled: true
+
+#################### Style ###############################
+
+Style/ArgumentsForwarding:
+  Enabled: true
+
+Style/ArrayIntersect:
+  Enabled: true
+
+Style/BarePercentLiterals:
+  Enabled: true
+  EnforcedStyle: bare_percent
+  SupportedStyles:
+    - percent_q
+    - bare_percent
+
+Style/BeginBlock:
+  Enabled: true
+
+Style/BlockComments:
+  Enabled: true
+
+Style/BlockDelimiters:
+  Enabled: true
+  EnforcedStyle: line_count_based
+  SupportedStyles:
+    # The `line_count_based` style enforces braces around single line blocks and
+    # do..end around multi-line blocks.
+    - line_count_based
+    # The `semantic` style enforces braces around functional blocks, where the
+    # primary purpose of the block is to return a value and do..end for
+    # multi-line procedural blocks, where the primary purpose of the block is
+    # its side-effects. Single-line procedural blocks may only use do-end,
+    # unless AllowBracesOnProceduralOneLiners has a truthy value (see below).
+    #
+    # This looks at the usage of a block's method to determine its type (e.g. is
+    # the result of a `map` assigned to a variable or passed to another
+    # method) but exceptions are permitted in the `ProceduralMethods`,
+    # `FunctionalMethods` and `IgnoredMethods` sections below.
+    - semantic
+    # The `braces_for_chaining` style enforces braces around single line blocks
+    # and do..end around multi-line blocks, except for multi-line blocks whose
+    # return value is being chained with another method (in which case braces
+    # are enforced).
+    - braces_for_chaining
+    # The `always_braces` style always enforces braces.
+    - always_braces
+  ProceduralMethods:
+    # Methods that are known to be procedural in nature but look functional from
+    # their usage, e.g.
+    #
+    #   time = Benchmark.realtime do
+    #     foo.bar
+    #   end
+    #
+    # Here, the return value of the block is discarded but the return value of
+    # `Benchmark.realtime` is used.
+    - benchmark
+    - bm
+    - bmbm
+    - create
+    - each_with_object
+    - measure
+    - new
+    - realtime
+    - tap
+    - with_object
+  FunctionalMethods:
+    # Methods that are known to be functional in nature but look procedural from
+    # their usage, e.g.
+    #
+    #   let(:foo) { Foo.new }
+    #
+    # Here, the return value of `Foo.new` is used to define a `foo` helper but
+    # doesn't appear to be used from the return value of `let`.
+    - let
+    - let!
+    - subject
+    - watch
+  # The AllowBracesOnProceduralOneLiners option is ignored unless the
+  # EnforcedStyle is set to `semantic`. If so:
+  #
+  # If AllowBracesOnProceduralOneLiners is unspecified, or set to any
+  # falsey value, then semantic purity is maintained, so one-line
+  # procedural blocks must use do-end, not braces.
+  #
+  #   # bad
+  #   collection.each { |element| puts element }
+  #
+  #   # good
+  #   collection.each do |element| puts element end
+  #
+  # If AllowBracesOnProceduralOneLiners is set to any truthy value,
+  # then one-line procedural blocks may use either style.
+  #
+  #   # good
+  #   collection.each { |element| puts element }
+  #
+  #   # also good
+  #   collection.each do |element| puts element end
+  AllowBracesOnProceduralOneLiners: false
+  # The BracesRequiredMethods overrides all other configurations except
+  # IgnoredMethods. It can be used to enforce that all blocks for specific
+  # methods use braces. For example, you can use this to enforce Sorbet
+  # signatures use braces even when the rest of your codebase enforces
+  # the `line_count_based` style.
+  BracesRequiredMethods: []
+
+Style/CaseEquality:
+  Enabled: true
+
+Style/CollectionCompact:
+  Enabled: true
+
+Style/ComparableClamp:
+  Enabled: true
+
+Style/ConcatArrayLiterals:
+  Enabled: true
+
+Style/DocumentDynamicEvalDefinition:
+  Enabled: true
+
+Style/EmptyHeredoc:
+  Enabled: true
+
+Style/EndlessMethod:
+  Enabled: true
+
+Style/EnvHome:
+  Enabled: true
+
+Style/FetchEnvVar:
+  Enabled: true
+
+Style/FileRead:
+  Enabled: true
+
+Style/FileWrite:
+  Enabled: true
+
+Style/HashConversion:
+  Enabled: true
+
+Style/HashExcept:
+  Enabled: true
+
+Style/IfWithBooleanLiteralBranches:
+  Enabled: true
+
+Style/InPatternThen:
+  Enabled: true
+
+Style/MagicCommentFormat:
+  Enabled: true
+
+Style/MapCompactWithConditionalBlock:
+  Enabled: true
+
+Style/MapToHash:
+  Enabled: true
+
+Style/MapToSet:
+  Enabled: true
+
+Style/MinMaxComparison:
+  Enabled: true
+
+Style/MultilineInPatternThen:
+  Enabled: true
+
+Style/NegatedIfElseCondition:
+  Enabled: true
+
+Style/NestedFileDirname:
+  Enabled: true
+
+Style/NilLambda:
+  Enabled: true
+
+Style/NumberedParameters:
+  Enabled: true
+
+Style/NumberedParametersLimit:
+  Enabled: true
+
+Style/ObjectThen:
+  Enabled: true
+
+Style/OpenStructUse:
+  Enabled: true
+
+Style/OperatorMethodCall:
+  Enabled: true
+
+Style/QuotedSymbols:
+  Enabled: true
+
+Style/RedundantArgument:
+  Enabled: true
+
+Style/RedundantConstantBase:
+  Enabled: true
+
+Style/RedundantDoubleSplatHashBraces:
+  Enabled: true
+
+Style/RedundantEach:
+  Enabled: true
+
+Style/RedundantHeredocDelimiterQuotes:
+  Enabled: true
+
+Style/RedundantInitialize:
+  Enabled: true
+
+Style/RedundantSelfAssignmentBranch:
+  Enabled: true
+
+Style/RedundantStringEscape:
+  Enabled: true
+
+Style/SelectByRegexp:
+  Enabled: true
+
+Style/StringChars:
+  Enabled: true
+
+Style/SwapValues:
+  Enabled: true
+
+Style/TrailingBodyOnClass:
+  Enabled: true
+
+Style/TrailingBodyOnMethodDefinition:
+  Enabled: true
+
+Style/TrailingBodyOnModule:
+  Enabled: true
+
+Style/TrailingCommaInArguments:
+  Enabled: true
+  # If `comma`, the cop requires a comma after the last argument, but only for
+  # parenthesized method calls where each argument is on its own line.
+  # If `consistent_comma`, the cop requires a comma after the last argument,
+  # for all parenthesized method calls with arguments.
+  EnforcedStyleForMultiline: no_comma
+  SupportedStylesForMultiline:
+    - comma
+    - consistent_comma
+    - no_comma
+
+Style/TrailingCommaInBlockArgs:
+  Enabled: false
+  Safe: false
+
+Style/TrailingCommaInArrayLiteral:
+  Enabled: true
+  EnforcedStyleForMultiline: consistent_comma
+  # If `comma`, the cop requires a comma after the last item in an array,
+  # but only when each item is on its own line.
+  # If `consistent_comma`, the cop requires a comma after the last item of all
+  # non-empty, multiline array literals.
+  SupportedStylesForMultiline:
+    - comma
+    - consistent_comma
+    - no_comma
+
+Style/WordArray:
+  Enabled: true
+  EnforcedStyle: percent
+  MinSize: 2
+  SupportedStyles:
+    # percent style: %w(word1 word2)
+    - percent
+    # bracket style: ['word1', 'word2']
+    - brackets
+  # The regular expression `WordRegex` decides what is considered a word.
+  WordRegex: !ruby/regexp '/\A(?:\p{Word}|\p{Word}-\p{Word}|\n|\t)+\z/'
+
+Style/YodaCondition:
+  Enabled: true
+  EnforcedStyle: forbid_for_all_comparison_operators
+  SupportedStyles:
+    # check all comparison operators
+    - forbid_for_all_comparison_operators
+    # check only equality operators: `!=` and `==`
+    - forbid_for_equality_operators_only
+    # enforce yoda for all comparison operators
+    - require_for_all_comparison_operators
+    # enforce yoda only for equality operators: `!=` and `==`
+    - require_for_equality_operators_only
+  Safe: false
+
+Style/ZeroLengthPredicate:
+  Enabled: true
+  Safe: false
