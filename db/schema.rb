@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_27_162116) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_27_163927) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,13 +20,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_27_162116) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "tag_txns", force: :cascade do |t|
+    t.bigint "tag_id", null: false
+    t.bigint "txn_id", null: false
+    t.index ["tag_id"], name: "index_tag_txns_on_tag_id"
+    t.index ["txn_id"], name: "index_tag_txns_on_txn_id"
+  end
+
   create_table "tags", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "transactions", force: :cascade do |t|
+  create_table "txns", force: :cascade do |t|
     t.string "amount", null: false
     t.string "name", null: false
     t.bigint "purpose_id", null: false
@@ -35,8 +42,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_27_162116) do
     t.datetime "updated_at", null: false
     t.integer "category", null: false
     t.integer "direction", null: false
-    t.index ["purpose_id"], name: "index_transactions_on_purpose_id"
-    t.index ["wallet_id"], name: "index_transactions_on_wallet_id"
+    t.index ["purpose_id"], name: "index_txns_on_purpose_id"
+    t.index ["wallet_id"], name: "index_txns_on_wallet_id"
   end
 
   create_table "wallets", force: :cascade do |t|
@@ -47,6 +54,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_27_162116) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "transactions", "purposes"
-  add_foreign_key "transactions", "wallets"
+  add_foreign_key "tag_txns", "tags"
+  add_foreign_key "tag_txns", "txns"
+  add_foreign_key "txns", "purposes"
+  add_foreign_key "txns", "wallets"
 end

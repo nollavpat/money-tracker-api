@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-class Transaction < ApplicationRecord
+class Txn < ApplicationRecord
   has_one :wallet
   has_one :purpose
-  # has_and_belongs_to_many :tags
+  has_many :tag_txns
+  has_many :tags, through: :tag_txns
 
   enum :category, %i[need want]
   enum :direction, %i[debit credit]

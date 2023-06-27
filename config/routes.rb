@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   resources :tags, only: %i[create destroy index show]
 
-  resources :transactions, only: %i[create destroy index show update]
+  resources :txns, only: %i[create destroy index show update]
 
   resources :wallets, only: %i[create destroy index show update]
   post '/wallets/:id/debit', to: 'wallets#debit', as: 'debit'
