@@ -4,8 +4,8 @@ Rails.application.routes.draw do
   resources :tags, only: %i[create destroy index show]
 
   resources :txns, only: %i[create destroy index show update]
+  post '/txns/:id/tags', to: 'txns#add_tags', as: 'add_tags'
+  delete '/txns/:id/tags', to: 'txns#delete_tags', as: 'delete_tags'
 
   resources :wallets, only: %i[create destroy index show update]
-  post '/wallets/:id/debit', to: 'wallets#debit', as: 'debit'
-  post '/wallets/:id/credit', to: 'wallets#credit', as: 'credit'
 end

@@ -23,6 +23,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_27_163927) do
   create_table "tag_txns", force: :cascade do |t|
     t.bigint "tag_id", null: false
     t.bigint "txn_id", null: false
+    t.index ["tag_id", "txn_id"], name: "index_tag_txns_on_tag_id_and_txn_id", unique: true
     t.index ["tag_id"], name: "index_tag_txns_on_tag_id"
     t.index ["txn_id"], name: "index_tag_txns_on_txn_id"
   end
@@ -34,7 +35,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_27_163927) do
   end
 
   create_table "txns", force: :cascade do |t|
-    t.string "amount", null: false
+    t.decimal "amount", null: false
     t.string "name", null: false
     t.bigint "purpose_id", null: false
     t.bigint "wallet_id", null: false

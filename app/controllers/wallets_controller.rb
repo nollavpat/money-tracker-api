@@ -2,34 +2,14 @@
 
 class WalletsController < ApplicationController
   before_action :authenticate_token
-  before_action :set_wallet, only: %i[credit debit destroy show update]
+  before_action :set_wallet, only: %i[destroy show update]
 
   # POST /wallets
   def create
-    puts params
-
     @wallet = Wallet.new(wallet_params)
 
     if @wallet.save
       render json: @wallet, status: :created, location: @wallet
-    else
-      render json: @wallet.errors, status: :unprocessable_entity
-    end
-  end
-
-  # POST /wallets/1/credit
-  def credit
-    if @wallet.update({ balance: @wallet.balance.to_f + params.require(:amount).abs.to_f })
-      render json: @wallet
-    else
-      render json: @wallet.errors, status: :unprocessable_entity
-    end
-  end
-
-  # POST /wallets/1/debit
-  def debit
-    if @wallet.update({ balance: @wallet.balance.to_f - params.require(:amount).abs.to_f })
-      render json: @wallet
     else
       render json: @wallet.errors, status: :unprocessable_entity
     end
