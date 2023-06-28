@@ -18,12 +18,14 @@ class TxnsController < ApplicationController
   # POST /txns
   def create
     @txn = Txn.new(transaction_params)
+    amount = @txn.amount.abs
+    amount *= -1 if @txn.debit?
+    new_wallet_balance = @wallet.balance + amount
+
+    return render json: { status: 400, error: 'Insufficient balance' }, status: 400 if new_wallet_balance.negative?
 
     persisted = ActiveRecord::Base.transaction do
-      amount = @txn.amount.abs
-      amount *= -1 if @txn.debit?
-
-      @wallet.update({ balance: @wallet.balance + amount })
+      @wallet.update({ balance: new_wallet_balance })
 
       @txn.save
     end
@@ -110,7 +112,7 @@ class TxnsController < ApplicationController
   end
 
   def query_txns_with_relationships(query = {})
-    sql = Txn.joins(tag_txns: [:tag])
+    sql = Txn.left_outer_joins(tag_txns: [:tag])
              .joins('LEFT JOIN wallets ON wallets.id = txns.wallet_id')
              .joins('LEFT JOIN purposes ON purposes.id = txns.purpose_id')
              .where(query)
@@ -122,6 +124,7 @@ class TxnsController < ApplicationController
                      'tags.name as tag_name',
                      'wallets.name as wallet',
                      'purposes.name as purpose')
+             .order(created_at: :desc)
              .to_sql
 
     ActiveRecord::Base.connection.exec_query(sql).to_a
