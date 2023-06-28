@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class TxnsController < ApplicationController
-  before_action :set_transaction, only: %i[add_tags delete_tags show update destroy]
+  before_action :set_transaction, only: %i[add_tags delete_tags update destroy]
   before_action :set_wallet, only: %i[create]
   before_action :set_purpose, only: %i[create]
 
@@ -49,14 +49,12 @@ class TxnsController < ApplicationController
 
   # GET /txns
   def index
-    @txns = Txn.all
-
-    render json: @txns
+    render json: txns_with_relationships
   end
 
   # GET /txns/1
   def show
-    render json: @txn
+    render json: txn_with_relationships
   end
 
   # PATCH/PUT /txns/1
@@ -95,5 +93,45 @@ class TxnsController < ApplicationController
         :purpose_id,
         :wallet_id
       )
+  end
+
+  def parse_records(records)
+    hash = {}
+
+    records.each do |txn|
+      if hash[txn['id']].present?
+        hash[txn['id']][:tags] << txn['tag_name']
+      else
+        hash[txn['id']] = txn.except('tag_name').merge(tags: [txn['tag_name']])
+      end
+    end
+
+    hash.values
+  end
+
+  def query_txns_with_relationships(query = {})
+    sql = Txn.joins(tag_txns: [:tag])
+             .where(query)
+             .select('txns.id',
+                     'txns.amount',
+                     'txns.name',
+                     'txns.created_at',
+                     'txns.updated_at',
+                     'tags.name as tag_name')
+             .to_sql
+
+    ActiveRecord::Base.connection.exec_query(sql).to_a
+  end
+
+  def txn_with_relationships
+    records = query_txns_with_relationships(id: params[:id])
+
+    parse_records(records)[0]
+  end
+
+  def txns_with_relationships
+    records = query_txns_with_relationships
+
+    parse_records(records)
   end
 end
