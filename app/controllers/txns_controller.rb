@@ -111,13 +111,17 @@ class TxnsController < ApplicationController
 
   def query_txns_with_relationships(query = {})
     sql = Txn.joins(tag_txns: [:tag])
+             .joins('LEFT JOIN wallets ON wallets.id = txns.wallet_id')
+             .joins('LEFT JOIN purposes ON purposes.id = txns.purpose_id')
              .where(query)
              .select('txns.id',
                      'txns.amount',
                      'txns.name',
                      'txns.created_at',
                      'txns.updated_at',
-                     'tags.name as tag_name')
+                     'tags.name as tag_name',
+                     'wallets.name as wallet',
+                     'purposes.name as purpose')
              .to_sql
 
     ActiveRecord::Base.connection.exec_query(sql).to_a
