@@ -18,8 +18,7 @@ class TxnsController < ApplicationController
   # POST /txns
   def create
     @txn = Txn.new(transaction_params)
-    amount = @txn.amount.abs
-    amount *= -1 if @txn.debit?
+    amount = @txn.amount
     new_wallet_balance = @wallet.balance + amount
 
     return render json: { status: 400, error: 'Insufficient balance' }, status: 400 if new_wallet_balance.negative?
@@ -90,7 +89,6 @@ class TxnsController < ApplicationController
       .permit(
         :amount,
         :category,
-        :direction,
         :name,
         :purpose_id,
         :wallet_id

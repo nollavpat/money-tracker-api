@@ -7,5 +7,4 @@ class Txn < ApplicationRecord
   has_many :tags, through: :tag_txns
 
   enum :category, %i[need want]
-  enum :direction, %i[debit credit]
 end
