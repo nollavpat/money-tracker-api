@@ -18,10 +18,12 @@ end
 ActiveRecord::Base.transaction do
   # WITH FOREIGN KEYS
   TagTxn.delete_all
+  Txn.delete_all
+  Purpose.delete_all
+  Tag.delete_all
+  Wallet.delete_all
 
   # PURPOSES
-  Purpose.delete_all
-  
   purposes = %w[
     apparel
     bills
@@ -38,8 +40,6 @@ ActiveRecord::Base.transaction do
   puts("Created #{Purpose.count} purposes")
   
   # TAGS
-  Tag.delete_all
-  
   tags = %w[
     tag1
     tag2
@@ -61,8 +61,6 @@ ActiveRecord::Base.transaction do
   puts("Created #{Wallet.count} wallet")
   
   # TRANSACTIONS
-  Txn.delete_all
-  
   categories = %w[need want]
   
   # > June
