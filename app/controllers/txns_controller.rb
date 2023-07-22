@@ -102,7 +102,8 @@ class TxnsController < ApplicationController
       if hash[txn['id']].present?
         hash[txn['id']][:tags] << txn['tag_name']
       else
-        hash[txn['id']] = txn.except('tag_name').merge(tags: [txn['tag_name']])
+        hash[txn['id']] = txn.except('tag_name')
+                             .merge(tags: [txn['tag_name']].compact)
       end
     end
 
