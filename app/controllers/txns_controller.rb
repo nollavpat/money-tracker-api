@@ -69,6 +69,16 @@ class TxnsController < ApplicationController
 
   private
 
+  def build_txn(txn)
+    txn.except('tag_name', 'wallet_name', 'wallet_logo_url')
+       .merge(
+         {
+           tags: txn['tag_name'].present? ? [txn['tag_name']] : [],
+           wallet: { name: txn['wallet_name'], logo_url: txn['wallet_logo_url'] }
+         }
+       )
+  end
+
   def parse_records(records)
     hash = {}
 
@@ -76,8 +86,7 @@ class TxnsController < ApplicationController
       if hash[txn['id']].present?
         hash[txn['id']][:tags] << txn['tag_name']
       else
-        hash[txn['id']] = txn.except('tag_name')
-                             .merge(tags: [txn['tag_name']].compact)
+        hash[txn['id']] = build_txn(txn)
       end
     end
 
@@ -95,7 +104,8 @@ class TxnsController < ApplicationController
                      'txns.created_at',
                      'txns.updated_at',
                      'tags.name as tag_name',
-                     'wallets.name as wallet',
+                     'wallets.name as wallet_name',
+                     'wallets.logo_url as wallet_logo_url',
                      'purposes.name as purpose')
              .order(created_at: :desc)
              .to_sql
