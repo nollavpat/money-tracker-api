@@ -74,8 +74,8 @@ ActiveRecord::Base.transaction do
       category: 'need',
       wallet_id: new_wallets[1].id,
       purpose_id: new_purposes[7].id,
-      created_at: Time.new(2023, 06, 15, 17, 00, 00, "+08:00"),
-      updated_at: Time.new(2023, 06, 15, 17, 00, 00, "+08:00")
+      created_at: Time.new(2023, 06, 15, 17, 00, 00, "+08:00").gmtime,
+      updated_at: Time.new(2023, 06, 15, 17, 00, 00, "+08:00").gmtime
     }
   ]
   
@@ -92,8 +92,8 @@ ActiveRecord::Base.transaction do
         category: category,
         wallet_id: wallet.id,
         purpose_id: purpose.id,
-        created_at: created_at,
-        updated_at: created_at
+        created_at: created_at.gmtime,
+        updated_at: created_at.gmtime
       }
     )
   end

@@ -69,32 +69,6 @@ class TxnsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
-  def set_purpose
-    @purpose = Purpose.find(params[:purpose_id])
-  end
-
-  def set_transaction
-    @txn = Txn.find(params[:id])
-  end
-
-  def set_wallet
-    @wallet = Wallet.find(params[:wallet_id])
-  end
-
-  # Only allow a list of trusted parameters through.
-  def transaction_params
-    params
-      .require(:txn)
-      .permit(
-        :amount,
-        :category,
-        :name,
-        :purpose_id,
-        :wallet_id
-      )
-  end
-
   def parse_records(records)
     hash = {}
 
@@ -129,6 +103,40 @@ class TxnsController < ApplicationController
     ActiveRecord::Base.connection.exec_query(sql).to_a
   end
 
+  # Use callbacks to share common setup or constraints between actions.
+  def set_purpose
+    @purpose = Purpose.find(params[:purpose_id])
+  end
+
+  def set_transaction
+    @txn = Txn.find(params[:id])
+  end
+
+  def set_wallet
+    @wallet = Wallet.find(params[:wallet_id])
+  end
+
+  def transactions_filter_params
+    params
+      .permit(
+        :from,
+        :to
+      )
+  end
+
+  # Only allow a list of trusted parameters through.
+  def transaction_params
+    params
+      .require(:txn)
+      .permit(
+        :amount,
+        :category,
+        :name,
+        :purpose_id,
+        :wallet_id
+      )
+  end
+
   def txn_with_relationships
     records = query_txns_with_relationships(id: params[:id])
 
@@ -136,7 +144,11 @@ class TxnsController < ApplicationController
   end
 
   def txns_with_relationships
-    records = query_txns_with_relationships
+    filter = if transactions_filter_params[:from].present? && transactions_filter_params[:to].present?
+               { created_at: transactions_filter_params[:from]..transactions_filter_params[:to] }
+             end
+
+    records = query_txns_with_relationships(filter)
 
     parse_records(records)
   end
