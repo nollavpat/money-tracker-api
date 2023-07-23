@@ -52,8 +52,16 @@ ActiveRecord::Base.transaction do
   
   # WALLETS
   wallets = [
-    { name: 'gcash', balance: 100000 },
-    { name: 'unionbank', balance: 100000 },
+    {
+      name: 'gcash',
+      balance: 100000,
+      logo_url: 'https://yt3.ggpht.com/WWmNjgwcea8lCYzpWOIj0IXXq-PTg-YrRTiRmS38sfj51CV4KLyvjspLNME8xKUm5mzpMpJ1NA=s68-c-k-c0x00ffffff-no-rj'
+    },
+    {
+      name: 'unionbank',
+      balance: 100000,
+      logo_url: 'https://cdn.yellowmessenger.com/C282ttbyzNtB1630395945901.jpeg'
+    },
   ]
   
   new_wallets = Wallet.create!(wallets)
@@ -63,9 +71,9 @@ ActiveRecord::Base.transaction do
   # TRANSACTIONS
   categories = %w[need want]
   
-  # > June
-  from = Time.new(2023, 06, 01, 00, 00, 00, "+08:00")
-  to = Time.new(2023, 06, 30, 11, 59, 00, "+08:00")
+  # > July
+  from = Time.new(2023, 07, 01, 00, 00, 00, "+08:00")
+  to = Time.new(2023, 07, 30, 11, 59, 00, "+08:00")
   
   june_transactions = [
     {
@@ -74,8 +82,8 @@ ActiveRecord::Base.transaction do
       category: 'need',
       wallet_id: new_wallets[1].id,
       purpose_id: new_purposes[7].id,
-      created_at: Time.new(2023, 06, 15, 17, 00, 00, "+08:00").gmtime,
-      updated_at: Time.new(2023, 06, 15, 17, 00, 00, "+08:00").gmtime
+      created_at: Time.new(2023, 07, 15, 17, 00, 00, "+08:00").gmtime,
+      updated_at: Time.new(2023, 07, 15, 17, 00, 00, "+08:00").gmtime
     }
   ]
   
