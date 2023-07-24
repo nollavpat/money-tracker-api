@@ -18,18 +18,8 @@ class TxnsController < ApplicationController
   # POST /txns
   def create
     @txn = Txn.new(transaction_params)
-    amount = @txn.amount
-    new_wallet_balance = @wallet.balance + amount
 
-    return render json: { status: 400, error: 'Insufficient balance' }, status: 400 if new_wallet_balance.negative?
-
-    persisted = ActiveRecord::Base.transaction do
-      @wallet.update({ balance: new_wallet_balance })
-
-      @txn.save
-    end
-
-    if persisted
+    if @txn.save
       render json: @txn, status: :created, location: @txn
     else
       render json: @txn.errors, status: :unprocessable_entity
@@ -77,6 +67,16 @@ class TxnsController < ApplicationController
            wallet: { name: txn['wallet_name'], logo_url: txn['wallet_logo_url'] }
          }
        )
+  end
+
+  def pagination_filters
+    filter = {}
+
+    if transactions_filter_params[:from].present? && transactions_filter_params[:to].present?
+      filter.merge!({ created_at: transactions_filter_params[:from]..transactions_filter_params[:to] })
+    end
+
+    filter
   end
 
   def parse_records(records)
@@ -129,6 +129,7 @@ class TxnsController < ApplicationController
   def transactions_filter_params
     params
       .permit(
+        :direction,
         :from,
         :to
       )
@@ -154,12 +155,20 @@ class TxnsController < ApplicationController
   end
 
   def txns_with_relationships
-    filter = if transactions_filter_params[:from].present? && transactions_filter_params[:to].present?
-               { created_at: transactions_filter_params[:from]..transactions_filter_params[:to] }
-             end
+    filter = pagination_filters.merge(wallet_filters)
 
     records = query_txns_with_relationships(filter)
 
     parse_records(records)
+  end
+
+  def wallet_filters
+    filter = {}
+
+    if transactions_filter_params[:direction].present?
+      filter.merge!({ 'wallets.direction': transactions_filter_params[:direction] })
+    end
+
+    filter
   end
 end

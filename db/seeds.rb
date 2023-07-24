@@ -54,13 +54,18 @@ ActiveRecord::Base.transaction do
   wallets = [
     {
       name: 'gcash',
-      balance: 100000,
-      logo_url: 'https://yt3.ggpht.com/WWmNjgwcea8lCYzpWOIj0IXXq-PTg-YrRTiRmS38sfj51CV4KLyvjspLNME8xKUm5mzpMpJ1NA=s68-c-k-c0x00ffffff-no-rj'
+      logo_url: 'https://yt3.ggpht.com/WWmNjgwcea8lCYzpWOIj0IXXq-PTg-YrRTiRmS38sfj51CV4KLyvjspLNME8xKUm5mzpMpJ1NA=s68-c-k-c0x00ffffff-no-rj',
+      direction: 'debit'
     },
     {
       name: 'unionbank',
-      balance: 100000,
-      logo_url: 'https://cdn.yellowmessenger.com/C282ttbyzNtB1630395945901.jpeg'
+      logo_url: 'https://cdn.yellowmessenger.com/C282ttbyzNtB1630395945901.jpeg',
+      direction: 'debit'
+    },
+    {
+      name: 'rcbc cc',
+      logo_url: 'https://seeklogo.com/images/R/rizal-commercial-banking-corporation-rcbc-logo-9D04B8B00A-seeklogo.com.png',
+      direction: 'credit'
     },
   ]
   
@@ -87,7 +92,7 @@ ActiveRecord::Base.transaction do
     }
   ]
   
-  30.times do
+  50.times do
     category = categories.sample
     purpose = new_purposes.slice(0, 7).sample
     wallet = new_wallets.sample
