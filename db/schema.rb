@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_24_114540) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_24_131640) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "payment_transactions", force: :cascade do |t|
+    t.bigint "expense_id", null: false
+    t.bigint "payment_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["expense_id", "payment_id"], name: "index_payment_transactions_on_expense_id_and_payment_id", unique: true
+    t.index ["expense_id"], name: "index_payment_transactions_on_expense_id"
+    t.index ["payment_id"], name: "index_payment_transactions_on_payment_id"
+  end
 
   create_table "purposes", force: :cascade do |t|
     t.string "name", null: false
@@ -54,6 +64,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_24_114540) do
     t.integer "direction", null: false
   end
 
+  add_foreign_key "payment_transactions", "txns", column: "expense_id"
+  add_foreign_key "payment_transactions", "txns", column: "payment_id"
   add_foreign_key "tag_txns", "tags"
   add_foreign_key "tag_txns", "txns"
   add_foreign_key "txns", "purposes"

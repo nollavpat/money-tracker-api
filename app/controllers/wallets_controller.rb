@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class WalletsController < ApplicationController
-  before_action :authenticate_token
   before_action :set_wallet, only: %i[destroy show update]
 
   # POST /wallets

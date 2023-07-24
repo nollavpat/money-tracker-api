@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class PurposesController < ApplicationController
-  before_action :authenticate_token
   before_action :set_purpose, only: %i[destroy show]
 
   # POST /purposes
