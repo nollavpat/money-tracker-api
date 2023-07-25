@@ -19,8 +19,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_24_131640) do
     t.bigint "payment_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["expense_id", "payment_id"], name: "index_payment_transactions_on_expense_id_and_payment_id", unique: true
-    t.index ["expense_id"], name: "index_payment_transactions_on_expense_id"
+    t.index ["expense_id"], name: "index_payment_transactions_on_expense_id", unique: true
     t.index ["payment_id"], name: "index_payment_transactions_on_payment_id"
   end
 

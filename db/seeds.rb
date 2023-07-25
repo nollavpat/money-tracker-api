@@ -33,6 +33,7 @@ ActiveRecord::Base.transaction do
     games
     grocery
     salary
+    cc_payment
   ]
   
   new_purposes = Purpose.create!(purposes.map { |purpose| { name: purpose } })

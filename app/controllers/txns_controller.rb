@@ -2,12 +2,12 @@
 
 class TxnsController < ApplicationController
   before_action :set_transaction, only: %i[add_tags delete_tags update destroy]
-  before_action :set_wallet, only: %i[create]
+  before_action :set_wallet, only: %i[create create_payment]
   before_action :set_purpose, only: %i[create]
 
   # POST /txns
   def add_tags
-    tags = TagTxn.create(params.require(:tag_ids).map { |tag_id| { tag_id:, txn_id: @txn.id } })
+    tags = TagTxn.create!(params.require(:tag_ids).map { |tag_id| { tag_id:, txn_id: @txn.id } })
 
     if tags.all?(&:persisted?)
       render json: tags
@@ -29,9 +29,17 @@ class TxnsController < ApplicationController
 
   # POST /txns/payments
   def create_payment
-    puts payment_params
+    payment = PaymentTransaction.pay_txns(
+      name: params[:name],
+      txn_ids: params[:txn_ids],
+      wallet: @wallet
+    )
 
-    render json: { hello: 'world' }
+    if payment.is_a?(Txn)
+      render json: payment, status: :created, location: payment
+    else
+      render json: payment, status: 400
+    end
   end
 
   # DELETE /txns
@@ -77,8 +85,8 @@ class TxnsController < ApplicationController
 
   def payment_params
     params
-      .require(:txn)
       .permit(
+        :name,
         :txn_ids,
         :wallet_id
       )
