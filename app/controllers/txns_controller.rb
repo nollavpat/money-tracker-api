@@ -35,11 +35,12 @@ class TxnsController < ApplicationController
       wallet: @wallet
     )
 
-    if payment.is_a?(Txn)
-      render json: payment, status: :created, location: payment
-    else
-      render json: payment, status: 400
-    end
+    render json: payment, status: :created, location: payment
+  rescue PaymentTransaction::AlreadyPaid,
+         PaymentTransaction::DebitExpense,
+         PaymentTransaction::EmptyTxns,
+         PaymentTransaction::MultipleBanks => e
+    render json: { message: e.message }, status: 400
   end
 
   # DELETE /txns

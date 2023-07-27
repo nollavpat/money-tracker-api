@@ -1,13 +1,37 @@
 # frozen_string_literal: true
 
 class PaymentTransaction < ApplicationRecord
+  class EmptyTxns < StandardError
+    def message
+      'No transactions.'
+    end
+  end
+
+  class MultipleBanks < StandardError
+    def message
+      'All transactions should have the same wallet_id.'
+    end
+  end
+
+  class DebitExpense < StandardError
+    def message
+      'Trasactions are not a credit expense.'
+    end
+  end
+
+  class AlreadyPaid < StandardError
+    def message
+      'Transaction/s already paid!'
+    end
+  end
+
   belongs_to :expense, class_name: 'Txn', foreign_key: :expense_id
   belongs_to :payment, class_name: 'Txn', foreign_key: :payment_id
 
   def self.pay_txns(name:, txn_ids:, wallet:)
-    return { message: 'No transactions.' } if txn_ids.empty?
-    return { message: 'All transactions should have the same wallet_id.' } unless only_one_bank?(txn_ids)
-    return { message: 'Trasactions are not a credit expense.' } if not_a_credit_expense(txn_ids)
+    raise EmptyTxns if txn_ids.empty?
+    raise MultipleBanks unless only_one_bank?(txn_ids)
+    raise DebitExpense if not_a_credit_expense(txn_ids)
 
     purpose = Purpose.find_by(name: 'cc_payment')
 
@@ -27,7 +51,7 @@ class PaymentTransaction < ApplicationRecord
       payment
     end
   rescue ActiveRecord::RecordNotUnique
-    { message: 'Transaction/s already paid!' }
+    raise AlreadyPaid
   end
 
   private_class_method def self.only_one_bank?(txn_ids)
